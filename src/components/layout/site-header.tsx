@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +10,8 @@ import { IoChatboxEllipsesOutline, IoHelpCircleOutline, IoHeartOutline, IoSchool
 import { LuUserRound } from "react-icons/lu";
 
 import lineIcon from "@/assets/icons/line.png";
+import saudiFlag from "@/assets/logos/country/saudi_arabia.png";
+import ukFlag from "@/assets/logos/country/uk.png";
 import swapArrowIcon from "@/assets/icons/swapArrow.png";
 import wishlistIcon from "@/assets/icons/wishlist.png";
 import {
@@ -25,6 +27,8 @@ type ActionIconLinkProps = {
   badgeCount?: number;
   label: string;
 };
+
+type UtilityDialog = "language" | "currency" | null;
 
 const mobileQuickLinks = [
   { label: "الرئيسية", href: "/", icon: FiHome },
@@ -48,6 +52,18 @@ const mobileBottomNav = [
   { label: "المفضلة", href: "/wishlist", icon: IoHeartOutline, badge: 5 },
   { label: "المقارنة", href: "/compare", icon: IoSwapHorizontalOutline },
   { label: "حسابي", href: "/login", icon: LuUserRound },
+];
+
+const languageOptions = [
+  { id: "ar", label: "العربية", code: "ar", flag: saudiFlag },
+  { id: "en", label: "English", code: "en", flag: ukFlag },
+];
+
+const currencyOptions = [
+  { id: "sar", label: "ريال سعودي", code: "SAR", symbol: "﷼" },
+  { id: "usd", label: "دولار أمريكي", code: "USD", symbol: "$" },
+  { id: "gbp", label: "جنيه استرليني", code: "GBP", symbol: "£" },
+  { id: "eur", label: "اليورو", code: "EUR", symbol: "€" },
 ];
 
 function ActionIconLink({ href, iconSrc, badgeCount = 0, label }: ActionIconLinkProps) {
@@ -92,6 +108,10 @@ function LogoMark() {
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeDialog, setActiveDialog] = useState<UtilityDialog>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0]);
+  const [selectedCurrency, setSelectedCurrency] = useState(currencyOptions[0]);
+  const utilityAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -104,6 +124,34 @@ export function SiteHeader() {
       document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    function handleOutsideClick(event: MouseEvent) {
+      if (!utilityAreaRef.current?.contains(event.target as Node)) {
+        setActiveDialog(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setActiveDialog(null);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <header className="w-full bg-white">
@@ -118,19 +166,88 @@ export function SiteHeader() {
               ))}
             </nav>
 
-            <div className="flex items-center gap-5 text-[13px] font-medium leading-none">
-              <Link href={utilityLinks.language.href} className="inline-flex items-center gap-1.5 transition hover:opacity-85">
-                <span className="text-[10px]">▾</span>
-                <span>{utilityLinks.language.label}</span>
-                <span className="rounded-sm bg-[#57B947] px-1 py-0.5 text-[10px] font-semibold text-white">
-                  KSA
-                </span>
-              </Link>
+            <div ref={utilityAreaRef} className="relative flex items-center gap-5 text-[13px] font-medium leading-none">
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setActiveDialog((previous) => (previous === "language" ? null : "language"))}
+                  className="inline-flex items-center gap-1.5 transition hover:opacity-85"
+                >
+                  <span className="text-[10px]">▾</span>
+                  <span>{selectedLanguage.label}</span>
+                  <span className="rounded-sm bg-[#57B947] px-1 py-0.5 text-[10px] font-semibold text-white">
+                    KSA
+                  </span>
+                </button>
 
-              <Link href={utilityLinks.currency.href} className="inline-flex items-center gap-1.5 transition hover:opacity-85">
-                <span className="text-[10px]">▾</span>
-                <span>{utilityLinks.currency.label}</span>
-              </Link>
+                {activeDialog === "language" ? (
+                  <div className="absolute start-0 top-[calc(100%+10px)] z-50 w-[220px] rounded-2xl bg-white p-2 text-[#1E293B] shadow-[0_28px_50px_-30px_rgba(15,23,42,0.55)]" dir="ltr">
+                    {languageOptions.map((language) => {
+                      const isSelected = selectedLanguage.id === language.id;
+
+                      return (
+                        <button
+                          key={language.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedLanguage(language);
+                            setActiveDialog(null);
+                          }}
+                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
+                            isSelected ? "bg-[#EAF1F7]" : "hover:bg-[#F4F7FA]"
+                          }`}
+                        >
+                          <Image src={language.flag} alt={language.label} className="h-6 w-6 rounded-full object-cover" />
+                          <span className="flex flex-col">
+                            <span className="text-[16px] font-semibold leading-none text-[#1F2937]">{language.label}</span>
+                            <span className="mt-0.5 text-[12px] font-medium leading-none text-[#64748B]">{language.code}</span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setActiveDialog((previous) => (previous === "currency" ? null : "currency"))}
+                  className="inline-flex items-center gap-1.5 transition hover:opacity-85"
+                >
+                  <span className="text-[10px]">▾</span>
+                  <span>{selectedCurrency.symbol}</span>
+                  <span>{selectedCurrency.code}</span>
+                </button>
+
+                {activeDialog === "currency" ? (
+                  <div className="absolute start-0 top-[calc(100%+10px)] z-50 w-[240px] rounded-2xl bg-white p-2 text-[#1E293B] shadow-[0_28px_50px_-30px_rgba(15,23,42,0.55)]" dir="ltr">
+                    {currencyOptions.map((currency) => {
+                      const isSelected = selectedCurrency.id === currency.id;
+
+                      return (
+                        <button
+                          key={currency.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedCurrency(currency);
+                            setActiveDialog(null);
+                          }}
+                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
+                            isSelected ? "bg-[#EAF1F7]" : "hover:bg-[#F4F7FA]"
+                          }`}
+                        >
+                          <span className="w-6 text-center text-[24px] font-semibold leading-none text-black">{currency.symbol}</span>
+                          <span className="flex flex-col">
+                            <span className="text-[16px] font-semibold leading-none text-[#1F2937]">{currency.label}</span>
+                            <span className="mt-0.5 text-[12px] font-medium leading-none text-[#64748B]">{currency.code}</span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
