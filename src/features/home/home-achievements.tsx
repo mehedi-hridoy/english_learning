@@ -1,6 +1,6 @@
 export function HomeAchievements() {
   return (
-    <section className="relative z-0 mx-auto w-full max-w-[1440px] bg-[#F5F7FA] px-6 py-16 sm:px-10 lg:px-[88px]">
+    <section className="relative z-0 w-full bg-white px-6 py-16 sm:px-10 lg:px-[clamp(2.5rem,6vw,7rem)]">
       <div className="rounded-3xl bg-white px-6 py-10 shadow-[0_14px_40px_-30px_rgba(16,39,69,0.3)] sm:px-10 lg:px-14 lg:py-12">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start" dir="rtl">
           <div className="lg:col-span-6">

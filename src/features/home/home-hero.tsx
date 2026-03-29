@@ -146,7 +146,7 @@ export function HomeHero() {
   }
 
   return (
-    <section className="relative z-20 mx-auto w-full max-w-[1440px] overflow-visible border-t border-[#0071BC] bg-white lg:h-[613px] lg:bg-[#E5EDF3]">
+    <section className="relative z-20 w-full overflow-visible border-t border-[#E9EAED] bg-white lg:min-h-[680px] lg:bg-[#E5EDF3]">
       <div className="absolute inset-0 hidden lg:block">
         <Image
           src={backgroundImage}
@@ -160,8 +160,8 @@ export function HomeHero() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.82)_0%,rgba(255,255,255,0.72)_54%,rgba(0,113,188,0.16)_100%),linear-gradient(90deg,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.24)_40%,rgba(255,255,255,0.76)_100%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-4 pb-8 pt-8 sm:px-6 lg:flex lg:h-[613px] lg:items-end lg:justify-between lg:gap-6 lg:pe-[36px] lg:ps-[36px] lg:pt-9" dir="ltr">
-        <div className="relative hidden h-[556px] w-[631px] shrink-0 items-end justify-start overflow-hidden lg:flex">
+      <div className="relative z-10 w-full px-4 pb-8 pt-8 sm:px-6 lg:flex lg:min-h-[680px] lg:items-end lg:justify-between lg:gap-6 lg:px-[clamp(2rem,6vw,7rem)] lg:pt-9" dir="ltr">
+        <div className="relative hidden h-[580px] w-[clamp(360px,42vw,760px)] shrink-0 items-end justify-start overflow-hidden lg:flex lg:translate-y-8">
           <Image
             src={humanImage}
             alt="طالب يشير بإبهامه للأعلى"
@@ -172,21 +172,21 @@ export function HomeHero() {
           />
         </div>
 
-        <div className="mx-auto flex w-full max-w-[625px] flex-col gap-6 text-right lg:mb-12 lg:gap-9" dir="rtl">
+        <div className="mx-auto flex w-full max-w-none flex-col gap-8 text-right lg:mb-16 lg:w-[min(58vw,860px)] lg:gap-12" dir="rtl">
           <div>
             <p className="hidden text-[14px] font-normal leading-[1.35] text-[#1D2A39] sm:text-[16px] lg:block lg:text-[18px] lg:leading-none">
               🔥 عروضنا حصرية. نضمن أفضل الأسعار والخدمات وسندفع الفرق اذا وجدت سعر او خدمة أفضل
             </p>
-            <h1 className="mt-2 text-[22px] font-bold leading-[1.2] text-[#102A46] sm:text-[24px] lg:mt-4 lg:text-[48px] lg:leading-none">
+            <h1 className="mt-3 text-[22px] font-bold leading-[1.2] text-[#102A46] sm:text-[24px] lg:mt-5 lg:text-[48px] lg:leading-none">
               ابدأ رحلتك الدراسية الآن
             </h1>
-            <p className="mt-3 text-[14px] font-normal leading-[1.5] text-[#8A98A8] sm:text-[15px] lg:mt-4 lg:text-[18px] lg:leading-none">
+            <p className="mt-4 text-[14px] font-normal leading-[1.5] text-[#8A98A8] sm:text-[15px] lg:mt-5 lg:text-[18px] lg:leading-none">
               اكتشف أفضل المعاهد والدورات المعتمدة حول العالم، واختر الوجهة التي
               تناسب طموحاتك بكل سهولة.
             </p>
           </div>
 
-          <form className="space-y-3" action="#" dir="rtl" ref={controlsRef}>
+          <form className="space-y-5" action="#" dir="rtl" ref={controlsRef}>
             <div className="relative">
               <button
                 type="button"
@@ -270,7 +270,7 @@ export function HomeHero() {
               ) : null}
             </div>
 
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-3" dir="rtl">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-3" dir="rtl">
               <div className="relative col-span-2 order-3 lg:col-span-1 lg:order-1">
                 <button
                   type="button"
@@ -400,8 +400,8 @@ export function HomeHero() {
               </div>
             </div>
 
-            <div className="space-y-3 pt-1" dir="rtl">
-              <fieldset className="flex flex-wrap items-center justify-start gap-x-5 gap-y-2 border-none p-0" dir="rtl">
+            <div className="space-y-4 pt-2" dir="rtl">
+              <fieldset className="flex flex-wrap items-center justify-start gap-x-6 gap-y-3 border-none p-0" dir="rtl">
                 <legend className="sr-only">خيارات إضافية</legend>
                 {options.map((option) => (
                   <label

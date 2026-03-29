@@ -109,7 +109,7 @@ export function SiteHeader() {
     <header className="w-full bg-white">
       <div className="hidden lg:block">
         <div className="bg-[#0071BC]">
-          <div className="mx-auto flex h-[56px] w-full max-w-[1440px] items-center justify-between gap-6 pe-4 ps-4 text-white md:pe-8 md:ps-8 lg:pe-[100px] lg:ps-[100px]">
+          <div className="flex h-[56px] w-full items-center justify-between gap-6 px-4 text-white md:px-8 lg:px-[clamp(2rem,6vw,7rem)]">
             <nav className="hidden items-center gap-6 text-[13px] font-medium leading-none lg:flex">
               {topBarLinks.map((link) => (
                 <Link key={link.href} href={link.href} className="transition hover:opacity-85">
@@ -136,7 +136,7 @@ export function SiteHeader() {
         </div>
 
         <div className="border-b border-[#E9EAED] bg-white">
-          <div className="mx-auto flex h-[100.54px] w-full max-w-[1440px] items-center justify-between gap-[40px] pe-4 ps-4 md:pe-8 md:ps-8 lg:pe-[100px] lg:ps-[100px]">
+          <div className="flex h-[100.54px] w-full items-center justify-between gap-[40px] px-4 md:px-8 lg:px-[clamp(2rem,6vw,7rem)]">
             <LogoMark />
 
             <nav className="hidden items-center gap-[48px] text-[13px] font-medium text-[#0F2745] lg:flex">
